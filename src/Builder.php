@@ -21,7 +21,7 @@ class Builder {
             $this->command->say('error', $recipe);
         }
 
-        $destination = is_null($this->command->option('d')) ? __DIR__ : $this->command->option('d');
+        $destination = is_null($this->command->option('d')) ? getcwd() : $this->command->option('d');
         $items = empty($this->command->argument('items')) ?
             array_keys($this->recipe->getAllIngredients()) : $this->command->argument('items');
 
