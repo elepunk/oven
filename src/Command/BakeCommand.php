@@ -2,6 +2,7 @@
 
 use Oven\Builder;
 use Oven\Reader;
+use Oven\ArgumentReader;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
@@ -19,8 +20,8 @@ class BakeCommand extends Command {
             ->setDescription('Start baking some codes')
             ->addOption('r', null, InputOption::VALUE_OPTIONAL, 'Path to the recipe file')
             ->addOption('d', null, InputOption::VALUE_OPTIONAL, 'Destination where do you want the files to be generated')
-            ->addOption('i', null, InputOption::VALUE_OPTIONAL, 'Item that you want to generate')
-            ->addArgument('item', InputArgument::REQUIRED, 'Name of the item that you are generating');
+            ->addArgument('name', InputArgument::REQUIRED, 'Name of the item that you are generating')
+            ->addArgument('items', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Items that you want to generate (separate items with spaces)');
 
     }
 
