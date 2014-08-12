@@ -22,6 +22,13 @@ class Parser {
         return implode('\\', $names);
     }
 
+    public static function instance($argument)
+    {
+        $names = explode('/', $argument);
+
+        return Str::lower(array_pop($names));
+    }
+
     public static function path($argument)
     {
         $names = explode('/', $argument);

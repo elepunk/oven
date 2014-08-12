@@ -53,9 +53,14 @@ This is to specify the location of the recipe file if you are in another directo
 
 This will be the place where new files will be created. Default is the current directory.
 
+`--f`
+
+This will overwrite existing file
+
 #### Available Template Variables
 
 Variable | Description | Output
 --- | --- | ---
 `(entity)` | Studly cased entity name | Foobar
+`(instance)` | Lower cased entity name | foobar
 `(namespaces)` | Studly cased namespace | Foo\Bar\Foobar

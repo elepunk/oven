@@ -7,6 +7,6 @@ require __DIR__.'/../../autoload.php';
 use Oven\Command\BakeCommand;
 use Symfony\Component\Console\Application;
 
-$maker = new Application('Oven Boilerplate Generator', '1.1.0');
+$maker = new Application('Oven Boilerplate Generator', '1.1.2');
 $maker->add(new BakeCommand);
 $maker->run();

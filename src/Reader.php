@@ -20,7 +20,7 @@ class Reader {
 
     public function load($file)
     {
-        $this->recipefile = is_null($file) ? __DIR__.'/'.self::RECIPEFILE : $file;
+        $this->recipefile = is_null($file) ? getcwd().'/'.self::RECIPEFILE : $file;
 
         return $this->validateRecipe($this->recipefile);
     }

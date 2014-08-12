@@ -56,7 +56,13 @@ class Builder {
                 break;
             }
 
-            $this->copySource(Arr::get($ingredients, 'source'), Arr::get($ingredients, 'name'), $name, $destination);
+            $process = $this->copySource(Arr::get($ingredients, 'source'), Arr::get($ingredients, 'name'), $name, $destination);
+
+            if (! $process) {
+                $this->command->say('error', "Error! Item already exists. Use -f to overwrite");
+                return false;
+                break;
+            }
         }
 
         return true;
@@ -74,8 +80,14 @@ class Builder {
             $filesystem->makeDirectory($destination.'/'.$sourceDir, 0755, true);
         }
 
+        if ($filesystem->exists($destination.'/'.$sourceDir.$target) and ! $this->command->option('f')) {
+            return false;
+        } 
+
         $content = $this->readSource($this->recipe->getRecipePath().'/'.$source, $argument);
         $filesystem->put($destination.'/'.$sourceDir.$target, $content);
+        
+        return true;
     }
 
     protected function readSource($source, $argument)
