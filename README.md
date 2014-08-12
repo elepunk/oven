@@ -5,7 +5,7 @@ Simple boilerplate generator. Based on [Indatus/Blacksmith](https://github.com/I
 ### Installation
 
 Install as global Composer package and add the global Composer bin directory to your PATH.
-```composer global require "elepunk/oven=~1.0"```
+```composer global require "elepunk/oven=1.0.*"```
 
 ### Usage
 
