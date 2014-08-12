@@ -45,6 +45,11 @@ class Reader {
         return Arr::get($this->recipe, "ingredients.{$key}", null);
     }
 
+    public function getAllIngredients()
+    {
+        return Arr::get($this->recipe, "ingredients", null);
+    }
+
     protected function validateRecipe($file)
     {
         if ( ! $this->file->exists($file)) {

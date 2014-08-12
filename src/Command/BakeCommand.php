@@ -21,7 +21,7 @@ class BakeCommand extends Command {
             ->addOption('r', null, InputOption::VALUE_OPTIONAL, 'Path to the recipe file')
             ->addOption('d', null, InputOption::VALUE_OPTIONAL, 'Destination where do you want the files to be generated')
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the item that you are generating')
-            ->addArgument('items', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Items that you want to generate (separate items with spaces)');
+            ->addArgument('items', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Items that you want to generate (separate items with spaces)');
 
     }
 

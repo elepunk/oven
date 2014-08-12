@@ -22,8 +22,10 @@ class Builder {
         }
 
         $destination = is_null($this->command->option('d')) ? __DIR__ : $this->command->option('d');
+        $items = empty($this->command->argument('items')) ?
+            array_keys($this->recipe->getAllIngredients()) : $this->command->argument('items');
 
-        $process = $this->generate($destination, $this->command->argument('name'), $this->command->argument('items'));
+        $process = $this->generate($destination, $this->command->argument('name'), $items);
 
         if ($process) {
             $this->command->say('info', 'Success! Your recipe is cooked to prefection');
@@ -72,16 +74,18 @@ class Builder {
             $filesystem->makeDirectory($destination.'/'.$sourceDir, 0755, true);
         }
 
-        $content = $this->readSource($this->recipe->getRecipePath().'/'.$source);
+        $content = $this->readSource($this->recipe->getRecipePath().'/'.$source, $argument);
         $filesystem->put($destination.'/'.$sourceDir.$target, $content);
     }
 
-    protected function readSource($source)
+    protected function readSource($source, $argument)
     {
         $filesystem = $this->recipe->getFilesystem();
         $raw = $filesystem->get($source);
 
-        return $raw;
+        $clean = Parser::buildSource($raw, $argument);
+
+        return $clean;
     }
 
 }

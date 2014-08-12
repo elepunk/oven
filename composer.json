@@ -1,15 +1,20 @@
 {
     "name": "elepunk/oven",
-    "description": "File or directory scaffold tool",
+    "description": "Files or directories scaffold tool",
+    "keywords": ["generator", "scaffold", "boilerplate"],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Ahmad Shah Hafizan Hamidin",
+            "email": "ahmadshahhafizan@gmail.com",
+            "homepage": "http://www.elepunk.com"
+        }
+    ],
     "require": {
         "symfony/console": "2.5.*",
         "illuminate/filesystem": "4.2.*"
     },
     "autoload": {
-        "files": [
-            "vendor/illuminate/support/Illuminate/Support/helpers.php"
-        ],
         "psr-4": {
             "Oven\\": "src"
         }
