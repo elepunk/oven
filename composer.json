@@ -1,4 +1,4 @@
-{
+    {
     "name": "elepunk/oven",
     "description": "Files or directories scaffold tool",
     "keywords": ["generator", "scaffold", "boilerplate"],
@@ -18,5 +18,9 @@
         "psr-4": {
             "Oven\\": "src"
         }
-    }
+    },
+    "bin": [
+        "oven"
+    ],
+    "minimum-stability": "dev"
 }
