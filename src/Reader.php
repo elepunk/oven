@@ -9,6 +9,8 @@ class Reader {
 
     protected $file;
 
+    protected $recipefile;
+
     protected $recipe;
 
     public function __construct(Filesystem $file)
@@ -18,14 +20,19 @@ class Reader {
 
     public function load($file)
     {
-        $file = is_null($file) ? __DIR__.'/'.self::RECIPEFILE : $file;
+        $this->recipefile = is_null($file) ? __DIR__.'/'.self::RECIPEFILE : $file;
 
-        return $this->validateRecipe($file);
+        return $this->validateRecipe($this->recipefile);
     }
 
     public function getFilesystem()
     {
         return $this->file;
+    }
+
+    public function getRecipePath()
+    {
+        return str_replace(self::RECIPEFILE, '', $this->recipefile);
     }
 
     public function getRecipeName()

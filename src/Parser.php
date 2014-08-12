@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-class ArgumentReader {
+class Parser {
 
     public static function entity($argument)
     {
@@ -19,6 +19,16 @@ class ArgumentReader {
         }, $names);
 
         return implode('/', $names);
+    }
+
+    public static function extract($source, $argument)
+    {
+        preg_match('/[(]+[A-Za-z]+[)]/', $source, $match);
+        $method = preg_replace('/[()]/', '', $match[0]);
+
+        $name = forward_static_call(['self', $method], $argument);
+
+        return str_replace($match[0], $name, $source);
     }
 
 }
