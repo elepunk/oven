@@ -46,9 +46,11 @@ Generating the entire ingredients
 #### Available Options
 
 `--r="source-to-recipe-file"`
+
 This is to specify the location of the recipe file if you are in another directory. Default is the current directory.
 
 `--d="destination"`
+
 This will be the place where new files will be created. Default is the current directory.
 
 #### Available Template Variables
