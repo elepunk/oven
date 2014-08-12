@@ -1,0 +1,14 @@
+{
+    "name": "elepunk/oven",
+    "description": "File or directory scaffold tool",
+    "license": "MIT",
+    "require": {
+        "symfony/console": "2.5.*",
+        "illuminate/filesystem": "4.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Oven\\": "src"
+        }
+    }
+}
