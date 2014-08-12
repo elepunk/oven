@@ -33,6 +33,8 @@ Create a new folder and create a new file called ```recipe.json```.
 
 All files that want to be created need to be specified under ```ingredients```. Source like ```Controller/controller.php``` will be copied to the new destination.
 
+Check out my sample recipe [Oven Orchestra Recipe](https://github.com/elepunk/oven-orchestra).
+
 #### Running Oven
 
 Generating specific item
