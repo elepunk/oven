@@ -1,6 +1,7 @@
 <?php namespace Oven\Command;
 
-use Oven\Generator\Builder;
+use Oven\Builder;
+use Oven\Reader;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
@@ -25,7 +26,11 @@ class BakeCommand extends Command {
 
     protected function fire()
     {
-        $builder = new Builder($this, new Filesystem);
+        $builder = new Builder(
+            $this,
+            new Reader(new Filesystem)
+        );
+        
         $builder->build();
     }
 

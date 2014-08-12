@@ -7,6 +7,9 @@
         "illuminate/filesystem": "4.2.*"
     },
     "autoload": {
+        "files": [
+            "vendor/illuminate/support/Illuminate/Support/helpers.php"
+        ],
         "psr-4": {
             "Oven\\": "src"
         }
