@@ -2,18 +2,15 @@
 
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../../autoload.php';
 
 use Oven\Command\BakeCommand;
-use Oven\Command\ConfigureCommand;
 use Oven\Command\RecipeCommand;
+use Oven\Command\ConfigureCommand;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
-$dispatcher = new EventDispatcher;
 
-$oven = new Application('Oven Boilerplate Generator', '1.1.2');
+$oven = new Application('Oven Boilerplate Generator', '1.2.0');
 $oven->setDispatcher($dispatcher);
 $oven->add(new BakeCommand);
 $oven->add(new RecipeCommand);
