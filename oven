@@ -11,7 +11,6 @@ use Symfony\Component\Console\Application;
 
 
 $oven = new Application('Oven Boilerplate Generator', '1.2.0');
-$oven->setDispatcher($dispatcher);
 $oven->add(new BakeCommand);
 $oven->add(new RecipeCommand);
 $oven->add(new ConfigureCommand);
