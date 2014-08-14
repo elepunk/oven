@@ -1,11 +1,19 @@
 ## Oven Boilerplate Generator
 
-Simple boilerplate generator. Based on [Indatus/Blacksmith](https://github.com/Indatus/blacksmith) package.
+Simple boilerplate generator for PHP 5.4 and above. Based on [Indatus/Blacksmith](https://github.com/Indatus/blacksmith) package.
 
 ### Installation
 
 Install as global Composer package and add the global Composer bin directory to your PATH.
-```composer global require "elepunk/oven=1.1.*"```
+```composer global require "elepunk/oven=1.2.*"```
+
+### Available Commands
+
+Command | Description
+--- | --- 
+`oven bake` | Generate codes by manually specifying the recipe file
+`oven recipe:configure` | Set default recipes location
+`oven recipe:bake` | Generate codes by using recipe folder name
 
 ### Usage
 
@@ -45,6 +53,16 @@ Generating the entire ingredients
 
 ```oven bake --r="source/to/recipe.json" --d="your/destination/directory" Foobar```
 
+#### Organizing Your Recipes
+
+Set the recipes location
+
+```oven recipe:configure /path-to-your-recipe-files```
+
+Create new recipes under the recipe location. Then generate the items
+
+```oven recipe:bake --d="your/destination/directory" recipe-template-directory-name Foobar controller```
+
 #### Available Options
 
 `--r="source-to-recipe-file"`
@@ -66,3 +84,30 @@ Variable | Description | Output
 `(entity)` | Studly cased entity name | Foobar
 `(instance)` | Lower cased entity name | foobar
 `(namespaces)` | Studly cased namespace | Foo\Bar\Foobar
+
+### Changelogs
+
+#### v.1.2.0
+
+* Bump to minimum PHP verion 5.4
+* Add global option to set default recipe directory
+* Enable oven to bake using template
+* Change errors to exceptions
+* Added list of files generated after success
+
+#### v1.1.2
+
+* Add force option using --f
+* Add instance template variable
+
+#### v1.1.1
+
+* Detect current working directory it is running from
+
+#### v1.1.0
+
+* Fix vendor autoloading issue
+
+#### v1.0.0
+
+* Initial release
