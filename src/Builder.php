@@ -1,105 +1,48 @@
 <?php namespace Oven;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
-use Oven\Command\BakeCommand;
+use Oven\Command\CommandInterface;
 use Oven\Exception\BuildProcessException;
+use Symfony\Component\Console\Command\Command;
 
-class Builder {
+class Builder implements CommandInterface {
 
     protected $command;
 
-    protected $recipe;
+    protected $generator;
 
-    public function __construct(BakeCommand $command, Reader $recipe)
+    public function __construct(Command $command, Generator $generator)
     {
         $this->command = $command;
-        $this->recipe = $recipe;
+        $this->generator = $generator;
     }
 
-    public function build()
+    public function run()
     {
-        $this->recipe->load($this->command->option('r'));
+        $command = $this->command->getName();
 
         $destination = is_null($this->command->option('d')) ? getcwd() : $this->command->option('d');
+        $items =  ! empty($this->command->argument('items')) ? $this->command->argument('items') : null;
+        $output = $this->command->argument('name');
+        $force = $this->command->option('f');
 
-        $items = empty($this->command->argument('items')) ?
-        array_keys($this->recipe->getAllIngredients()) : $this->command->argument('items');
+        if (Str::startsWith($command, 'recipe')) {
+            $recipe = $this->command->argument('recipe');
 
-        $process = $this->generate($destination, $this->command->argument('name'), $items);
-
-        if ($process) {
-            $this->command->say('info', 'Success! Your recipe is cooked to prefection');
+            $files = $this->generator->start($recipe, $destination, $output, $items, true, $force);
         } else {
-            throw new BuildProcessException('Recipe was not successfully baked');
-        }
-    }
+            $recipe = $this->command->option('r');
 
-    protected function generate($destination, $name, $items)
-    {
-        $destination = $destination.'/'.Parser::path($name);
-        $filesystem = $this->recipe->getFilesystem();
-        
-        if ( ! $filesystem->isDirectory($destination)) {
-            $filesystem->makeDirectory($destination, 0755, true);
+            $files = $this->generator->start($recipe, $destination, $output, $items, false, $force);
         }
 
-        foreach ($items as $item) {
-            $ingredients = $this->recipe->getIngredient($item);
+        $items = count($files) > 1 ? Str::plural('item') : Str::singular('item');
 
-            if (is_null($ingredients)) {
-                $this->command->say('error', "Error! Missing {$item} ingredient from the recipe");
-                return false;
-                break;
-            }
-
-            if (is_null(Arr::get($ingredients, 'source', null))) {
-                $this->command->say('error', "Error! Cannot locate {$item} ingredient source");
-                return false;
-                break;
-            }
-
-            $process = $this->copySource(Arr::get($ingredients, 'source'), Arr::get($ingredients, 'name'), $name, $destination);
-
-            if (! $process) {
-                $this->command->say('error', "Error! Item already exists. Use -f to overwrite");
-                return false;
-                break;
-            }
+        $this->command->say('info', 'Your recipe is cooked to prefection! Oven generated '.count($files).' '.$items.' for you');
+        foreach ($files as $file) {
+            $this->command->say('comment', $file);
         }
-
-        return true;
-    }
-
-    protected function copySource($source, $name, $argument, $destination)
-    {
-        $filesystem = $this->recipe->getFilesystem();
-
-        $filename = basename($source);
-        $sourceDir = str_replace($filename, '', $source);
-        $target = Parser::extract($name, $argument);
-
-        if ( ! $filesystem->isDirectory($destination.'/'.$sourceDir)) {
-            $filesystem->makeDirectory($destination.'/'.$sourceDir, 0755, true);
-        }
-
-        if ($filesystem->exists($destination.'/'.$sourceDir.$target) and ! $this->command->option('f')) {
-            return false;
-        } 
-
-        $content = $this->readSource($this->recipe->getRecipePath().'/'.$source, $argument);
-        $filesystem->put($destination.'/'.$sourceDir.$target, $content);
-        
-        return true;
-    }
-
-    protected function readSource($source, $argument)
-    {
-        $filesystem = $this->recipe->getFilesystem();
-        $raw = $filesystem->get($source);
-
-        $clean = Parser::buildSource($raw, $argument);
-
-        return $clean;
     }
 
 }

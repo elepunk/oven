@@ -2,8 +2,9 @@
 
 use Illuminate\Filesystem\Filesystem;
 use Oven\Command\ConfigureCommand;
+use Oven\Command\CommandInterface;
 
-class Config implements OvenInterface {
+class Config implements CommandInterface {
 
     const CONFIGFILE = 'oven.json';
 

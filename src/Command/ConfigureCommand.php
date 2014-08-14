@@ -14,8 +14,8 @@ class ConfigureCommand extends Command {
 
     protected function configure()
     {
-        $this->setName('configure:recipe')
-            ->setDescription('Set default recipe directory')
+        $this->setName('recipe:configure')
+            ->setDescription('Set default recipe path')
             ->addArgument('path', InputArgument::REQUIRED, 'Path to your recipe files');
     }
 
