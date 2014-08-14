@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Oven\Command\BakeCommand;
+use Oven\Exception\BuildProcessException;
 
 class Builder {
 
@@ -17,18 +18,19 @@ class Builder {
 
     public function build()
     {
-        if ( ! $this->recipe->load($this->command->option('r'))) {
-            $this->command->say('error', $recipe);
-        }
+        $this->recipe->load($this->command->option('r'));
 
         $destination = is_null($this->command->option('d')) ? getcwd() : $this->command->option('d');
+
         $items = empty($this->command->argument('items')) ?
-            array_keys($this->recipe->getAllIngredients()) : $this->command->argument('items');
+        array_keys($this->recipe->getAllIngredients()) : $this->command->argument('items');
 
         $process = $this->generate($destination, $this->command->argument('name'), $items);
 
         if ($process) {
             $this->command->say('info', 'Success! Your recipe is cooked to prefection');
+        } else {
+            throw new BuildProcessException('Recipe was not successfully baked');
         }
     }
 

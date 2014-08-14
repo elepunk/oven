@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Filesystem\Filesystem;
+use Oven\Exception\InvalidRecipeException;
+use Oven\Exception\RecipeNotFoundException;
 
 class Reader {
 
@@ -53,17 +55,17 @@ class Reader {
     protected function validateRecipe($file)
     {
         if ( ! $this->file->exists($file)) {
-            return 'Error! Cannot load recipe file. Make sure the path is correct';
+            throw new RecipeNotFoundException("Unable to locate {$file}");
         }
 
         $recipe = json_decode($this->file->get($file), true);
 
         if ( ! is_array($recipe)) {
-            return 'Error! Invalid recipe file';
+            throw new InvalidRecipeException("{$file} is not a valid json file");
         }
 
         if ( ! array_key_exists('ingredients', $recipe)) {
-            return 'Error! Your recipe file is missing the ingredients';
+            throw new InvalidRecipeException("{$file} is missing the ingredients");
         }
 
         $this->recipe = $recipe;
