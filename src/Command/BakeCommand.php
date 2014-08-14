@@ -2,7 +2,6 @@
 
 use Oven\Builder;
 use Oven\Reader;
-use Oven\ArgumentReader;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
@@ -33,7 +32,7 @@ class BakeCommand extends Command {
             new Reader(new Filesystem)
         );
         
-        $builder->build();
+        $builder->run();
     }
 
 }
