@@ -9,8 +9,14 @@ use Illuminate\Filesystem\FileNotFoundException;
 
 class Generator {
 
+    /**
+     * 
+     */
     const CONFIGFILE = 'oven.json';
 
+    /**
+     * 
+     */
     const RECIPEFILE = 'recipe.json';
 
     protected $recipe;
@@ -20,7 +26,7 @@ class Generator {
         $this->recipe = $recipe;
     }
 
-    public function start($recipeFile, $destination, $output, $items, $template = false, $force = false)
+    public function start($recipeFile, $destination, $output, $items, $template = false, array $arguments)
     {
         if ($template) {
             $recipeFile = $this->recipeLocator($recipeFile);
@@ -35,7 +41,7 @@ class Generator {
         $generated = [];
 
         foreach ($items as $item) {
-            $file = $this->generate($destination, $item, $output, $force);
+            $file = $this->generate($destination, $item, $output, $arguments);
 
             $generated[] = $file;
         }
@@ -63,7 +69,7 @@ class Generator {
         return $recipePath.'/'.$recipe.'/'.self::RECIPEFILE;
     }
 
-    protected function generate($destination, $item, $output, $force)
+    protected function generate($destination, $item, $output, $arguments)
     {
         $destination = $destination.'/'.Parser::path($output);
         $filesystem = $this->recipe->getFilesystem();

@@ -6,18 +6,42 @@ use Oven\Command\CommandInterface;
 
 class Config implements CommandInterface {
 
+    /**
+     * Oven config file
+     */
     const CONFIGFILE = 'oven.json';
 
+    /**
+     * Oven config configuration command instance
+     * 
+     * @var Oven\Comman\ConfigureCommand
+     */
     protected $command;
 
+    /**
+     * Illuminate filesystem instance
+     * 
+     * @var Illuminate\Filesystem\Filesystem
+     */
     protected $filesystem;
 
+    /**
+     * Create new Config instance
+     * 
+     * @param Oven\Command\ConfigureCommand $command
+     * @param Illuminate\Filesystem\Filesystem       $filesystem
+     */
     public function __construct(ConfigureCommand $command, Filesystem $filesystem)
     {
         $this->command = $command;
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * Run configuration command
+     * 
+     * @return void
+     */
     public function run()
     {
         if ( ! $this->filesystem->isDirectory(__DIR__.'/../.oven')) {
@@ -31,6 +55,11 @@ class Config implements CommandInterface {
         $this->command->say('info', "Your recipe path is now set to {$path}");
     }
 
+    /**
+     * Create oven config directory and file
+     * 
+     * @return void
+     */
     protected function buildConfigFile()
     {
         $directory = $this->getDirectory();
@@ -39,6 +68,12 @@ class Config implements CommandInterface {
         $this->filesystem->put($directory.'/'.self::CONFIGFILE, '');
     }
 
+    /**
+     * Add configuration into config file
+     * 
+     * @param string $path
+     * @return  void
+     */
     protected function setConfig($path)
     {
         $directory = $this->getDirectory();
@@ -50,6 +85,11 @@ class Config implements CommandInterface {
         $this->filesystem->put($directory.'/'.self::CONFIGFILE, json_encode($configs, 448));
     }
 
+    /**
+     * Get oven config directory
+     * 
+     * @return string
+     */
     protected function getDirectory()
     {
         return __DIR__.'/../.oven';
