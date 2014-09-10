@@ -7,6 +7,6 @@ interface CommandInterface {
      *
      * @return void
      */
-    public function fire();
+    public function run();
 
 }
