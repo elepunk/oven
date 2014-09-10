@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Oven\\": "src"
+            "Oven\\": "src",
+            "Oven\\TestCase\\": "tests"
         }
     },
     "bin": [
