@@ -1,0 +1,13 @@
+{
+    "name": "Sample Recipe",
+    "ingredients": {
+        "controller": {
+            "source": "Controller/controller.php",
+            "name": "(entity)Controller.php"
+        },
+        "processor": {
+            "source": "Processor/processor.php",
+            "name": "(entity).php"
+        }
+    }
+}
