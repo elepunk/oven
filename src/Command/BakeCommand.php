@@ -20,7 +20,15 @@ class BakeCommand extends Command {
      */
     protected function configure()
     {
-
+        $this->setName('recipe:bake')
+            ->setDescription('Start baking some codes')
+            ->addOption('recipe', null, InputOption::VALUE_OPTIONAL, 'Path to the recipe file')
+            ->addOption('destination', null, InputOption::VALUE_OPTIONAL, 'Destination where do you want the files to be generated')
+            ->addOption('f', null, InputOption::VALUE_NONE, 'Force overwrite existing items')
+            ->addOption('ignore-namespace', null, InputOption::VALUE_NONE, 'Ignore namespace and create in the same directory')
+            ->addArgument('output', InputArgument::REQUIRED, 'Name of the item that you are generating')
+            ->addArgument('recipe-name', InputArgument::OPTIONAL, 'Recipe from your default location')
+            ->addArgument('items', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Items that you want to generate (separate items with spaces)');
     }
 
     /**
