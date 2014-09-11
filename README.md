@@ -14,8 +14,7 @@ To update Oven, you can use ```composer global update``` command.
 ### Available Commands
 
 Command | Description
---- | --- 
-`oven bake` | Generate codes by manually specifying the recipe file
+--- | ---
 `oven recipe:configure` | Set default recipes location
 `oven recipe:bake` | Generate codes by using recipe folder name
 
@@ -90,6 +89,15 @@ Variable | Description | Output
 `(namespaces)` | Studly cased namespace | Foo\Bar\Foobar
 
 ### Changelogs
+
+#### v1.3.0
+* Deprecated ```oven bake``` command
+* ```oven recipe:bake``` recipe path can now be override using ```--recipe``` option
+* Added ```--ignore-namespace``` option to generate files in the same directory
+* Added ```oven recipe:skeleton``` command to create recipe boilerplate
+* Make the command options more readable
+* Overhaul the codebase to make it more testable
+* Added unit tests
 
 #### v1.2.0
 
