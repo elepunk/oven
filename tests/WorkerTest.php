@@ -42,6 +42,33 @@ class WorkerTest extends \PHPUnit_Framework_TestCase {
         $worker->build('foobar', 'foo', 'bar', ['foobaz'], ['force' => false, 'namespace' => true]);
     }
 
+    public function testBuildIgnoreNamespaceMethod()
+    {
+        list($worker, $reader) = $this->getMocks();
+        $filesystem = m::mock('Illuminate\Filesystem\Filesystem');
+
+        $reader->shouldReceive('filesystem')
+            ->once()
+            ->andReturn($filesystem);
+
+        $filesystem->shouldReceive('isDirectory')
+            ->once()
+            ->with('bar')
+            ->andReturn(true);
+
+        $reader->shouldReceive('read')
+            ->once()
+            ->with('foobar')
+            ->andReturn($reader);
+
+        $reader->shouldReceive('getItem')
+            ->once()
+            ->with('foobaz')
+            ->andReturn(['source' => 'source-foobar']);
+
+        $worker->build('foobar', 'foo', 'bar', ['foobaz'], ['force' => false, 'namespace' => false]);
+    }
+
     public function testBuildWithAllIngredientsMethod()
     {
         list($worker, $reader) = $this->getMocks();

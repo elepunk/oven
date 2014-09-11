@@ -78,14 +78,14 @@ class Worker {
 
         if ($namespace) {
             $directory = Parser::getPath($output);
-            $destination = $path.'/'.$directory;
+            $path = $path.'/'.$directory;
         }
 
-        if ( ! $filesystem->isDirectory($destination)) {
-            $filesystem->makeDirectory($destination, 0755, true);
+        if ( ! $filesystem->isDirectory($path)) {
+            $filesystem->makeDirectory($path, 0755, true);
         }
 
-        return $destination;
+        return $path;
     }
 
     /**
