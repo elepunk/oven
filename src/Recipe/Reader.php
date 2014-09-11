@@ -67,6 +67,16 @@ class Reader {
     }
 
     /**
+     * Get Filesystem instance
+     *
+     * @return \Illuminate\Filesystem\Filesystem
+     */
+    public function filesystem()
+    {
+        return $this->filesystem;
+    }
+
+    /**
      * Parse recipe file contents
      *
      * @param string $recipeFile

@@ -111,6 +111,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($reader->getItem('foobar'));
     }
 
+    public function testFilesystemMethod()
+    {
+        list($reader, $filesystem) = $this->getMocks();
+
+        $this->assertInstanceOf('Illuminate\Filesystem\Filesystem', $reader->filesystem());
+    }
+
     protected function getMocks()
     {
         $filesystem = m::mock('Illuminate\Filesystem\Filesystem');
