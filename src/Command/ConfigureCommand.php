@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConfigureCommand extends Command {
+class ConfigureCommand extends Command implements ConsoleInterface {
 
     use CommandTrait;
 
@@ -20,6 +20,9 @@ class ConfigureCommand extends Command {
             ->addArgument('path', InputArgument::REQUIRED, 'Path to the recipe files');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fire()
     {
         $configurator = new Configurator(new Filesystem);
