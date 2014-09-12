@@ -1,8 +1,9 @@
 <?php namespace Oven;
 
-use Oven\Recipe\Reader;
 use Oven\Recipe\Parser;
+use Oven\Recipe\Reader;
 use Illuminate\Support\Arr;
+use Oven\Recipe\Ingredient;
 use Oven\Exception\InvalidRecipeException;
 
 class Worker {
@@ -57,8 +58,10 @@ class Worker {
             }
         }
 
+        $source = $this->getRecipePath($recipeFile);
+
         foreach ($items as $item) {
-            $this->generated[] = $this->copySource($item, $output, Arr::get($arguments, 'force', false));
+            $this->generated[] = $this->copySource($item, $output, $source, Arr::get($arguments, 'force', false));
         }
 
         return $this->generated;
@@ -77,7 +80,7 @@ class Worker {
         $filesystem = $this->reader->filesystem();
 
         if ($namespace) {
-            $directory = Parser::getPath($output);
+            $directory = Parser::path($output);
             $path = $path.'/'.$directory;
         }
 
@@ -89,18 +92,63 @@ class Worker {
     }
 
     /**
+     * Copy and create new file
      *
+     * @param string $item
+     * @param string $output
+     * @param bool $force
+     * @throws \Oven\Exception\InvalidRecipeException
+     * @return string
      */
-    protected function copySource($item, $output, $force = false)
+    protected function copySource($item, $output, $source, $force = false)
     {
         $ingredient = $this->reader->getItem($item);
+
         if (is_null($ingredient)) {
             throw new InvalidRecipeException("Missing {$item} ingredient from the recipe");
         }
 
-        if (is_null(Arr::get($ingredient, 'source', null))) {
+        $ingredient = new Ingredient($ingredient);
+
+        if ( ! $ingredient->getIngredient()->offsetExists('source')) {
             throw new InvalidRecipeException("Unable  to locate {$item} ingredient source");
         }
+
+        $filesystem = $this->reader->filesystem();
+        $target = $this->destination.'/'.$ingredient->getSourceDir();
+
+        if ( ! $filesystem->isDirectory($target)) {
+            $filesystem->makeDirectory($target, 0755, true);
+        }
+
+        if ($ingredient->isEmptyDir()) {
+            return $target;
+        }
+
+        $filename = $ingredient->getFilename($output);
+        if ($filesystem->exists($target.'/'.$filename) and $force == false) {
+            return $target.'/'.$filename;
+        }
+
+        $sourceFile = $source.'/'.$ingredient->getSourceFile();
+        $content = Parser::buildSource($filesystem->get($sourceFile), $output);
+
+        $filesystem->put($target.'/'.$filename, $content);
+
+        return $target.'/'.$filename;
+    }
+
+    /**
+     * Get the path of the recipe file
+     *
+     * @param string $recipeFile
+     * @return string
+     */
+    protected function getRecipePath($recipeFile)
+    {
+        $path = str_replace('recipe.json', '', $recipeFile);
+
+        return trim($path, '/');
     }
 
 }
