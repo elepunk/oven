@@ -5,7 +5,7 @@ Simple boilerplate generator for PHP 5.4 and above. Based on [Indatus/Blacksmith
 ### Installation
 
 Install as global Composer package and add the global Composer bin directory to your PATH.
-```composer global require "elepunk/oven=1.2.*"```
+```composer global require "elepunk/oven=1.3.*@dev"```
 
 ### Updating Oven
 
