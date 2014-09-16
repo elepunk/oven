@@ -5,14 +5,11 @@
 require __DIR__.'/../../autoload.php';
 
 use Oven\Command\BakeCommand;
-use Oven\Command\RecipeCommand;
 use Oven\Command\ConfigureCommand;
 use Symfony\Component\Console\Application;
 
-
-$oven = new Application('Oven Boilerplate Generator', '1.2.0');
+$oven = new Application('Oven Boilerplate Generator', '1.3.0-dev');
 $oven->add(new BakeCommand);
-$oven->add(new RecipeCommand);
 $oven->add(new ConfigureCommand);
 
 $oven->run();

@@ -90,7 +90,7 @@ Variable | Description | Output
 
 ### Changelogs
 
-#### v1.3.0
+#### v1.3.0-dev
 * Deprecated ```oven bake``` command
 * ```oven recipe:bake``` recipe path can now be override using ```--recipe``` option
 * Added ```--ignore-namespace``` option to generate files in the same directory
