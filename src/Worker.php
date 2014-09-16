@@ -46,12 +46,12 @@ class Worker {
      */
     public function build($recipeFile, $output, $destination, array $items, array $arguments)
     {
-        $this->destination = $this->setDestination($destination, $output, Arr::get($arguments, 'namespace', true));
+        $this->destination = $this->setDestination($destination, $output, Arr::get($arguments, 'namespace'));
 
         $recipe = $this->reader->read($recipeFile);
 
         if (empty($items)) {
-            $items = $recipe->getItem('ingredients');
+            $items = array_keys($recipe->getItem('ingredients'));
 
             if (is_null($items)) {
                 throw new InvalidRecipeException("There are no ingredients found in the recipe");
@@ -75,11 +75,11 @@ class Worker {
      * @param boolean $namespace
      * @return string
      */
-    protected function setDestination($path, $output, $namespace = true)
+    protected function setDestination($path, $output, $namespace)
     {
         $filesystem = $this->reader->filesystem();
 
-        if ($namespace) {
+        if ( ! $namespace) {
             $directory = Parser::path($output);
             $path = $path.'/'.$directory;
         }
@@ -102,7 +102,7 @@ class Worker {
      */
     protected function copySource($item, $output, $source, $force = false)
     {
-        $ingredient = $this->reader->getItem($item);
+        $ingredient = $this->reader->getItem("ingredients.{$item}");
 
         if (is_null($ingredient)) {
             throw new InvalidRecipeException("Missing {$item} ingredient from the recipe");
@@ -148,7 +148,7 @@ class Worker {
     {
         $path = str_replace('recipe.json', '', $recipeFile);
 
-        return trim($path, '/');
+        return rtrim($path, '/');
     }
 
 }

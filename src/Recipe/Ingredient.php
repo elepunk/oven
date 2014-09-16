@@ -39,9 +39,13 @@ class Ingredient {
     public function getSourceDir()
     {
         $source = $this->ingredient->get('source');
-        $filename = basename($source);
 
-        return trim(str_replace($filename, '', $source), '/');
+        if ( ! $this->isEmptyDir()) {
+            $filename = basename($source);
+            return trim(str_replace($filename, '', $source), '/');
+        }
+
+        return $source;
     }
 
     /**

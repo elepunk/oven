@@ -49,13 +49,26 @@ class Builder implements CommandInterface {
             'namespace' => $this->ignoreNamespace()
         ];
 
-        $this->worker->build(
+        $files = $this->worker->build(
             $this->setRecipe(),
             $this->setOutput(),
             $this->setDestination(),
             $this->setItems(),
             $arguments
         );
+
+        $total = count($files);
+        if ($total > 1) {
+            $message = "Successfully generated {$total} files";
+        } else {
+            $message = "Successfully generated {$total} file";
+        }
+
+        $this->command->say('info', $message);
+
+        foreach ($files as $file) {
+            $this->command->say('comment', $file);
+        }
     }
 
     /**
